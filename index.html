@@ -1,0 +1,163 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Birthday Surprise</title>  
+  <link rel="stylesheet" href="style.css">  
+</head> 
+<body class="locked"> 
+  
+  <!-- BACKGROUND IMAGES (STEP 1) -->  
+  <div id="bg">  
+    <img src="assets/images/photo1.jpg" class="bg-img active">  
+    <img src="assets/images/photo2.jpg" class="bg-img">  
+    <img src="assets/images/photo3.jpg" class="bg-img">  
+  </div>  
+  
+  <!-- TAP ANYWHERE TO START -->  
+  <!-- HTML -->
+<div id="tap"><span>Tap anywhere to start</span></div>
+  <!-- AUDIO -->  
+  <audio id="song1" src="assets/music/song01.mp3" preload="auto" playsinline></audio>
+  <audio id="song2" src="assets/music/song02.mp3" preload="auto"></audio>
+  
+  <!-- TIMER (STEP 2) -->  
+  <div id="timer-wrapper">  
+    <div id="heading">Time Remaining For My Madam Jihh Birthday</div>  
+    <div id="timer">  
+      <div class="box"><span id="hours">00</span><small>Hrs</small></div>  
+      <div class="box"><span id="minutes">00</span><small>Min</small></div>  
+      <div class="box"><span id="seconds">00</span><small>Sec</small></div>  
+    </div>  
+  </div>  
+  
+  <!-- CELEBRATION CANVAS (STEP 3) -->  
+  <canvas id="celebrationCanvas"></canvas>  
+    
+ <!-- STEP 4 : LETTER OVERLAY -->  
+<div id="letterOverlay" style="display:none;">  
+  <div id="whiteFlash"></div>  
+  
+  <div id="letterContainer">  
+    <img src="assets/images/letter-template.png" />  
+    <div id="letterTextWrapper">  
+  <div id="letterText">  
+    <p>Happy Birthday Betaa,</p>  
+  
+    <p>  
+    Punha ekda wish you a very happy birthday bayko. Ts birthday party kdhi deshil.  
+    20 varsha chi zali na aata tu tr as nko smjhjo ki khubch mothi zali mhnun  
+    tula aata bi mazch aaykaych aahe. Manl ki tuz tond bnd nahi raht mhnun pn mi bi lucky aaho.  
+    Tuz tond ks band kraych brobr mahiti ahe mla. Tri pn thod kam jhgdt ja.  
+    Mhnje javd rahun jevd prem krte n tu tevdach dur rahun ghussa krte.  
+    As nh zalya pahije na. Prem bii krt ja kdhi.  
+    Te mhntat na “its not you verses me, its you and me verses the problem” tsch kahi.  
+    </p>  
+  
+    <p>  
+    Ha letter mi aata 28th la likh aaho mahiti nh tuzya birthday prynt thik chalel  
+    ya ajun bichat jhgda houn jail. Tri pn ha note tuzya prynt pohochun jail.  
+    Te gosht alag aahe ki jevda aapn jhgdto tevda ajun close yeto mhnun.  
+    </p>  
+  
+    <p>  
+    Mi promise krto ki tuzi har gosht manil, aapn jevd bii jhgdu tri boln band nahi hoil,  
+    kadhi aaplya bolnyacha bichat ego ni attitude nahi aanil, etc.  
+    Pan aata tula bii he promise kraycha aahe ki kadhi mi konsya goshti sathi nh mhtlo  
+    tr tu mazi condition smjhun gheshil ni manmani nahi krshil konsya bii goshti sathi.  
+    </p>  
+  
+    <p>  
+    Aani agr mi konsi gosht nahi smjhlo tr ghussa nahi krshil  
+    ni mla changlyani samjhvshil. Tu bii ek insan aahe ni mii pn.  
+    Glti doghan sobt pn hou shkte.  
+    </p>  
+  
+    <p>  
+    Mazya sobt kahi glti hoil tr mla sangshil tr mi te sudharil  
+    and same as for you. Aani konsi bii gosht mnat nko thevt jashil.  
+    Je bii asel te tevhach clear krt ja.  
+    </p>  
+  
+    <p>  
+    Jast emotional nako hot jau tu, stong bn mentally ni physically bii.  
+    Khat ja thods ni healthy bn. Tula mahit aahe healthy ksha sathi mhnt aaho mi.  
+    Mazya premachi nishani nahi thevshil kay tu mg.  
+    </p>  
+  
+    <p>  
+    Mla mahit aahe tu kiti stong aahe tr.  
+    Aata prynt kiti sari problems tu ektich solve keli aahe  
+    ni kahi aapn dogh midun. Ni ajun bii khub mothi life baki aahe.  
+    </p>  
+  
+    <p>  
+    Je bii samor problems yeil te aapn dogh midun solve karun.  
+    Mi kadhi kadhi bhtkun jato tr ummed krto ki tu mla sahi disha vr aanshil.  
+    Kdhi kdhi overthinking krto tr sambhadun gheshil.  
+    </p>  
+  
+    <p>  
+    Mi mentally, emotionally aani physically tula khub prem krto.  
+    Kdhi as nko sochjo ki yacha dimakat bs physical honyachch chalu rahte mhnun.  
+    Te kdhi kdhi lust havi houn jate dimakavr pn mi aata control karil  
+    ni aaplya future kde laksh deil.  
+    </p>  
+  
+    <p>  
+    Aani tula pn asch kraych aahe. Future kde laksh de, abhyas kr,  
+    successful bn ni mg lagn kr mazya sobt.  
+    </p>  
+  
+    <p>  
+    Bs aata chart vr yeun bol chup chap. Byy..  
+    </p>  
+  
+    <p>  
+    I love you so much,<br>  
+    Tuza lucky  
+    </p>  
+  </div>  
+  
+  <div id="letterCTA">click here to move forward</div>  
+</div>  
+  </div>  
+</div>  
+  
+<!-- YES/NO SURPRISE QUESTION -->  
+<div id="surpriseOverlay" style="display:none;">  
+  <div id="surpriseQuestion"></div>  
+  <div id="surpriseButtons" style="display:none;">  
+    <button id="yesBtn">Yes</button>  
+    <button id="noBtn">No</button>  
+  </div>  
+</div>  
+  
+<!-- GRAND ENDING -->  
+<div id="grandEnding">  
+  <div id="grandText"></div>  
+</div>  
+  
+<!-- PHOTO MONTAGE -->
+<div id="photoMontage">
+  <img id="imgA" class="reel-img" />
+  <img id="imgB" class="reel-img" />
+  <div id="lightLeak"></div>
+
+  <canvas id="dustCanvas"></canvas>
+  <div id="floodlight"></div>
+</div>
+  
+<audio id="voiceNote" src="assets/music/voice.mp3" preload="auto"></audio>
+  
+<div id="voiceText">Ha chotasa voice note<br>fkt tuzya sathi..😘</div>  
+<div id="matchFlare"></div>
+  
+  <div id="scene">
+  <canvas id="celebrationCanvas"></canvas>
+  <canvas id="dustCanvas"></canvas>
+</div>
+  <script src="script.js"></script>  
+</body>  
+</html>  

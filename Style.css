@@ -1,0 +1,443 @@
+@font-face {  
+  font-family: Wallington-Regular;  
+  src: url("assets/font/Wallington-Regular.ttf");  
+}  
+  
+* { margin:0; padding:0; box-sizing:border-box; }  
+html, body { width:100%; height:100%; overflow:auto; background:#000; font-family:Wallington-Regular; }  
+  
+/* BACKGROUND */  
+#bg { position: fixed; inset:0; z-index:0; }  
+.bg-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1.5s ease-in-out; }  
+.bg-img.active { opacity:1; }  
+  
+/* TAP */  
+/* CSS fix */
+/* TAP overlay — must be above everything */
+#tap {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.35);
+  color: white;
+  z-index: 99999999;  /* 🔑 above everything */
+  font-size: 22px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+#tap span {
+  pointer-events: none;
+}
+
+#bg,
+#celebrationCanvas,
+#dustCanvas {
+  pointer-events: none;
+}
+  
+/* TIMER */  
+#timer-wrapper { position: fixed; top:6%; width:100%; text-align:center; z-index:5; }  
+#heading { color:white; font-size:20px; margin-bottom:10px; }  
+#timer { display:flex; justify-content:center; gap:10px; }  
+.box { background:#E2725B; padding:6px 8px; border-radius:4px; min-width:42px; }  
+.box span, .box small { color:black; }  
+  
+/* TEXTS */  
+.text { position:fixed; width:100%; text-align:center; color:peachpuff; z-index:6; }  
+#mainText { top:35%; font-size:32px; }  
+#subText { top:46%; font-size:22px; }  
+  
+/* CANVAS */  
+#celebrationCanvas { position:fixed; inset:0; z-index:1; pointer-events:none; }  
+#celebrationCanvas.foreground {  
+  z-index: 1300000; /* ABOVE everything */  
+  opacity: 1;  
+}  
+  
+/* STEP 4 Overlay */  
+#letterOverlay {  
+  position: fixed;  
+  inset: 0;  
+  background: rgba(0,0,0,0.45);  
+  backdrop-filter: blur(8px);  
+  display: none;  
+  align-items: center;  
+  justify-content: center;  
+  z-index: 99999;  
+  pointer-events: auto;  
+}  
+  
+/* white flash */  
+#whiteFlash {  
+  position: absolute;  
+  inset: 0;  
+  background: white;  
+  opacity: 1;  
+  transition: opacity 2s ease;  
+  z-index: 1;  
+}  
+  
+/* letter */  
+#letterContainer {  
+  position: relative;  
+  z-index: 2;  
+  opacity: 0;  
+  transform: scale(1.5) translateY(100px);  
+  transition: opacity 0.8s ease, transform 0.8s ease;  
+}  
+  
+#letterContainer img {  
+  width: 100vw;        /* stretch full width */  
+  height: 100vh;       /* stretch full height */  
+  object-fit: cover;   /* fill screen, maintain aspect ratio as much as possible */  
+}  
+  
+@font-face {  
+  font-family: "HandInk";  
+  src: url("assets/font/Handwritten-Cursive.ttf");  
+}  
+  
+#letterTextWrapper {  
+  position: absolute;  
+  top: 10%;  
+  left: 12%;  
+  width: 76%;  
+  height: 74%;  
+  pointer-events: auto;  
+}  
+  
+#letterText {  
+  height: 100%;  
+  overflow-y: auto;  
+  padding-right: 10px;  
+  
+  font-family: "HandInk";  
+  font-size: clamp(22px, 4.5vw, 26px); /* 🔒 auto adjusts for mobile/desktop */  
+  line-height: 1.9;                   /* 🔒 breathing space */  
+  
+  color: #2b1b14;  
+}  
+  
+#letterText::-webkit-scrollbar {  
+  width: 0;  
+}  
+  
+#letterText p {  
+  opacity: 0;  
+  animation: fadeLine 1s ease forwards;  
+}  
+  
+@keyframes fadeLine {  
+  from { opacity: 0; }  
+  to { opacity: 1; }  
+}  
+  
+#letterCTA {  
+  position: absolute;  
+  bottom: -10%;  
+  left: 0;  
+  right: 0;  
+  margin: auto;  
+  width: fit-content;     /* 🔒 ensures true center */  
+  font-size: 16px;  
+  color: salmon;  
+  opacity: 0;  
+  animation: flicker 1s infinite;  
+  pointer-events: auto;  
+  cursor: pointer;  
+  text-align: center;  
+}  
+  
+@keyframes flicker {  
+  0%,100% { opacity: 1; }  
+  50% { opacity: 0.4; }  
+}  
+  
+#letterOverlay {  
+  pointer-events: auto;  
+  display: none;  
+}  
+  
+#letterOverlay.active {  
+  pointer-events: auto; /* block clicks only when letter is active */  
+}  
+  
+#surpriseOverlay {  
+  position: fixed;  
+  inset: 0;  
+  background: rgba(0,0,0,0.45);  
+  backdrop-filter: blur(8px);  
+  display: flex;  
+  flex-direction: column;  
+  justify-content: center;  
+  align-items: center;  
+  z-index: 1000000;  
+  pointer-events: auto;  
+  text-align: center;  
+}  
+  
+#surpriseQuestion {  
+  font-family: "Wallington-Regular";  /* exact project font */  
+  font-size: 26px;  
+  color: #CBA32B;                     /* exact colour */  
+  max-width: 80%;  
+  text-align: center;  
+}  
+  
+#surpriseButtons {  
+  margin-top: 30px;  
+  display: flex;  
+  gap: 30px;  
+}  
+  
+#surpriseButtons button {  
+  background: none;  
+  border: none;  
+  color: #CBA32B;                     /* same as question */  
+  font-family: "Wallington-Regular";  /* same font */  
+  font-size: 22px;  
+  cursor: pointer;  
+  text-transform: uppercase;  
+}  
+  
+@media (max-width: 768px) {  
+  #letterText {  
+    font-size: 21px;  
+    line-height: 1.9;  
+  }  
+}  
+  
+/* ===== YES / NO TEXT GLOW FLICKER ===== */  
+#surpriseButtons button {  
+  position: relative;  
+  animation: textGlow 1s infinite ease-in-out;  
+}  
+  
+/* Soft white stroke / glow ONLY on text */  
+@keyframes textGlow {  
+  0% {  
+    text-shadow:  
+      0 0 2px rgba(255,255,255,0.3),  
+      0 0 6px rgba(255,255,255,0.2);  
+  }  
+  50% {  
+    text-shadow:  
+      0 0 4px rgba(255,255,255,0.8),  
+      0 0 10px rgba(255,255,255,0.6);  
+  }  
+  100% {  
+    text-shadow:  
+      0 0 2px rgba(255,255,255,0.3),  
+      0 0 6px rgba(255,255,255,0.2);  
+  }  
+}  
+  
+@keyframes shake {  
+  0% { transform: translateX(0); }  
+  25% { transform: translateX(-6px); }  
+  50% { transform: translateX(6px); }  
+  75% { transform: translateX(-6px); }  
+  100% { transform: translateX(0); }  
+}  
+  
+@keyframes tilt {  
+  0% { transform: rotate(0deg); }  
+  50% { transform: rotate(-8deg); }  
+  100% { transform: rotate(0deg); }  
+}  
+  
+@keyframes shrink {  
+  0% { transform: scale(1); }  
+  100% { transform: scale(0.6); }  
+}  
+  
+body.surprise-active #letterOverlay {  
+  pointer-events: none;  
+}  
+/* ===============================  
+   GRAND ENDING – PHASE 1  
+   =============================== */  
+  
+#grandEnding {  
+  position: fixed;  
+  inset: 0;  
+  display: none;  
+  align-items: center;  
+  justify-content: center;  
+  background: transparent;  
+  backdrop-filter: none ;
+  z-index: 1200000;  
+}  
+  
+#grandText {  
+  max-width: 85%;  
+  text-align: center;  
+  font-family: "Wallington-Regular";  
+  font-size: clamp(26px, 6vw, 42px);  
+  color: #CBA32B;  
+  line-height: 1.4;  
+  
+  opacity: 0;  
+  transform: scale(0.85);  
+  transition: opacity 1.6s ease, transform 1.6s ease;  
+  
+  text-shadow:  
+    0 0 6px rgba(255,215,160,0.4),  
+    0 0 14px rgba(255,215,160,0.25);  
+}  
+  
+#grandEnding.show #grandText {  
+  opacity: 1;  
+  transform: scale(1);  
+}  
+  
+/* ===============================
+   PHOTO MONTAGE – FILM REEL
+================================ */
+
+#photoMontage {
+  position: fixed;
+  opacity: 0;
+  inset: 0;
+  background: #000;
+  overflow: hidden;
+  z-index: 1200000;
+  display: block;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.reel-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  opacity: 0;
+  transform: scale(1.05) translate(0,0);
+  transition:
+    opacity 1.4s ease-in-out,
+    transform 8s linear;   /* 🔑 slow cinematic move */
+  will-change: transform, opacity;
+}
+
+/* Active cinematic frame */
+.reel-img.active {
+  opacity: 1;
+  transform: scale(1.22) translate(var(--pan-x), var(--pan-y));
+}
+
+/* Exposure burst */
+.reel-img.flood {
+  filter: brightness(1.35) contrast(0.85) saturate(1.1);
+}
+
+/* dust & light stay same */
+#dustCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+#floodlight {
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 4;
+  filter: blur(6px);
+}
+  
+#voiceText {  
+  position: fixed;  
+  inset: 0;  
+  display: none;  
+  align-items: center;  
+  justify-content: center;  
+  font-size: clamp(26px, 6vw, 40px);  
+  color: #FFD9A0;  
+  z-index: 1200000;  
+  text-align: center;  
+  opacity: 0;  
+  transition: opacity 1.5s ease;  
+}  
+
+#matchFlare{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at center,
+    rgba(255,255,255,0.9),
+    rgba(255,255,255,0.4),
+    rgba(0,0,0,0.9));
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .4s ease;
+  z-index:999;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  box-shadow:inset 0 0 180px rgba(0,0,0,0.65);
+  pointer-events:none;
+  opacity:.15;
+  transition:opacity 1.2s ease;
+}
+
+body,html{
+  background:#000;
+  overflow:hidden;
+}
+#photoMontage.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#lightLeak {
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(circle at 30% 40%,
+      rgba(255,180,120,0.18),
+      rgba(255,180,120,0.05),
+      transparent 60%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: leakMove 8s infinite ease-in-out;
+  z-index: 5;
+  pointer-events: none;
+}
+
+@keyframes leakMove {
+  0%   { transform: translate(-10%, -10%); opacity: .15; }
+  50%  { transform: translate(10%, 10%);  opacity: .25; }
+  100% { transform: translate(-10%, -10%); opacity: .15; }
+}
+
+#photoMontage.voice-active::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  box-shadow: inset 0 0 160px rgba(0,0,0,0.65);
+  animation: pulseVignette 3.5s infinite ease-in-out;
+  pointer-events:none;
+}
+
+@keyframes pulseVignette {
+  0%,100% { opacity: .35; }
+  50%     { opacity: .6; }
+}
+
+body.locked * {
+  pointer-events: none !important;
+}
+
+body.locked #tap {
+  pointer-events: auto !important;
+}
