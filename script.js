@@ -468,7 +468,7 @@ function setupVoicePlayer({ voiceAudio, bgMusic }) {
 
   function duckBackground(duck) {
     if (!bgMusic) return;
-    fadeVolume(bgMusic, duck ? 0.10 : 0.55, 600);
+    fadeVolume(bgMusic, duck ? 0.07 : 0.55, 600);
   }
 
   voiceAudio.addEventListener("loadedmetadata", () => {
