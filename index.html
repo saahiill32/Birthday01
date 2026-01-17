@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Bachha</title>
+
+    <!-- Google Fonts: Playfair Display + Inter + Crimson Pro (letter) + Great Vibes (signature) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Crimson+Pro:wght@400;500;600&family=Dancing+Script:wght@500;600&family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+
+<!-- Performance hints (approved) -->
+<link rel="preload" href="./style.css" as="style" />
+<link rel="preload" href="./assets/audio/song01.mp3" as="audio" />
+<link rel="preload" href="./assets/audio/voice.mp3" as="audio" />
+<link rel="preload" href="./assets/audio/paper.mp3" as="audio" />
+
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <!-- Tap-to-start Intro (Intro 1) -->
+    <div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Start experience">
+      <div class="intro__card">
+        <p class="intro__title">It's My Babyy Birthday</p>
+        <p class="intro__hint">Tap to begin</p>
+        <button id="introBeginBtn" class="btn btn--gold" type="button">Begin</button>
+      </div>
+    </div>
+
+    <!-- (Temporary) Sound gate overlay (will be removed after we update script.js to use intro) -->
+    <div id="soundGate" class="sound-gate is-hidden" role="dialog" aria-modal="true">
+      <div class="sound-gate__card">
+        <p class="sound-gate__title">Enable sound</p>
+        <p class="sound-gate__text">
+          Tap once to start the music
+        </p>
+        <button id="enableSoundBtn" class="btn btn--gold" type="button">
+          Tap to continue
+        </button>
+      </div>
+    </div>
+
+    <!-- Audio (files go in /assets) -->
+    <audio id="bgMusic" src="./assets/song01.mp3" preload="auto" loop></audio>
+    <audio id="voiceAudio" src="./assets/voice.mp3" preload="auto"></audio>
+    <audio id="paperSfx" src="./assets/audio/paper.mp3" preload="auto"></audio>
+
+    <main class="page">
+      <!-- 1) Premium landing section -->
+      <section class="section section--hero" id="landing">
+        <div class="container hero">
+          <div class="hero__topline">18 January</div>
+
+          <h1 class="hero__title">Happy Birthday Bachha</h1>
+
+          <p class="hero__subtitle">
+            A little premium surprise, made with love.
+          </p>
+        </div>
+
+        <div class="hero__glow" aria-hidden="true"></div>
+        <div class="hero__sparkles" aria-hidden="true"></div>
+      </section>
+
+      <!-- 2) Countdown timer -->
+      <section class="section" id="countdownSection">
+        <div class="container">
+          <div class="divider divider--ornament" aria-hidden="true"></div>
+
+          <div class="card card--glass">
+            <div class="card__header">
+              <h2 class="section-title">Countdown</h2>
+              <p class="section-hint">Counting down to 18 January</p>
+            </div>
+
+            <div class="countdown" aria-label="Countdown timer">
+              <div class="countdown__item">
+                <div class="countdown__value" id="cdDays">—</div>
+                <div class="countdown__label">Days</div>
+              </div>
+              <div class="countdown__item">
+                <div class="countdown__value" id="cdHours">—</div>
+                <div class="countdown__label">Hours</div>
+              </div>
+              <div class="countdown__item">
+                <div class="countdown__value" id="cdMinutes">—</div>
+                <div class="countdown__label">Minutes</div>
+              </div>
+              <div class="countdown__item">
+                <div class="countdown__value" id="cdSeconds">—</div>
+                <div class="countdown__label">Seconds</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) Birthday moment: confetti + messages -->
+      <section class="section is-hidden" id="celebrationSection">
+        <div class="container">
+          <div class="divider divider--ornament" aria-hidden="true"></div>
+
+          <div class="card card--glass card--center">
+            <h2 class="section-title">It’s time.</h2>
+            <p class="section-hint">Happy Birthday, Samiksha.</p>
+
+            <div id="messageStage" class="message-stage" aria-live="polite">
+              <p id="messageText" class="message-text"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Photo grid -->
+      <section class="section is-hidden" id="gallerySection">
+        <div class="container">
+          <div class="divider divider--ornament" aria-hidden="true"></div>
+
+          <h2 class="section-title">Memories</h2>
+          <p class="section-hint">9 little moments, all yours.</p>
+
+          <div class="gallery" id="galleryGrid">
+            <!-- NOTE: wrappers added to allow badge overlay -->
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p1.jpg" alt="Photo 1" loading="lazy" data-index="0" data-caption="This is the smile I'm in love with.." />
+            </div>
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p2.jpg" alt="Photo 2" loading="lazy" data-index="1" data-caption="This is the cuteness that has won my heart.." />
+            </div>
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p3.jpg" alt="Photo 3" loading="lazy" data-index="2" data-caption="This is the girl who stole my heart.." />
+            </div>
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p4.jpg" alt="Photo 4" loading="lazy" data-index="3" data-caption="These is the personalities that I like very much.." />
+            </div>
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p5.jpg" alt="Photo 5" loading="lazy" data-index="4" data-caption="This is the same figure that comes in my dreams.." />
+            </div>
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p6.jpg" alt="Photo 6" loading="lazy" data-index="5" data-caption="This is the girl I never want to lose.." />
+            </div>
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p7.jpg" alt="Photo 7" loading="lazy" data-index="6" data-caption="This is the girl who has loved me a lot and still does.." />
+            </div>
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p8.jpg" alt="Photo 8" loading="lazy" data-index="7" data-caption="This is the same girl who changed me.." />
+            </div>
+            <div class="gallery__item">
+              <img class="gallery__img" src="./assets/images/p9.jpg" alt="Photo 9" loading="lazy" data-index="8" data-caption="This is the girl with whom I have dirty dreams.." />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4) Love letter -->
+      <section class="section is-hidden" id="loveLetterSection">
+        <div class="container">
+          <div class="divider divider--ornament" aria-hidden="true"></div>
+
+          <div class="card card--letter" id="loveLetterCard">
+            <div class="letter-head">
+              <h2 class="section-title">Love Letter</h2>
+              <p class="section-hint">A sealed little note — only for you.</p>
+            </div>
+
+<div class="letter-stage" id="letterStage">
+  <!-- Envelope (realistic flap open) -->
+  <div class="envelope" id="envelope">
+    <!-- Cover hides the letter while closed -->
+    <div class="envelope__cover" id="envelopeCover" aria-hidden="true"></div>
+
+    <!-- Flap holds the wax seal + button and opens upward -->
+    <div class="envelope__flap" id="envelopeFlap">
+      <div class="seal__wax" aria-hidden="true"></div>
+      <button id="breakSealBtn" class="btn btn--gold" type="button">
+        Break the seal
+      </button>
+    </div>
+  </div>
+
+  <!-- Letter content (revealed after opening) -->
+  <div class="letter-content is-locked" id="letterContent" aria-hidden="true">
+    <p class="letter-text" id="loveLetterText">
+Happy birthday betuu,
+Mazi priy bayko..
+Thank uhh for staying with me till now. Thank uhh for making me believe in love. Thank uhh for understanding me. Thank uhh for clearing up my overthinking. Thank uhh for making my world. Thank uhh for giving me your valuable time. Thank uhh for caring about me. Thank uhh for worrying about me. Thank uhh for making me understand the difference between right and wrong. Thank uhh for loving me so much. Thank uhh for holding me up this far. Thank uhh for being the heroine of my story. Thank uhh for giving me a place in your heart. Thank uhh for dreaming of spending your life with me. Thank uhh for supporting me in my right and wrong. Thank uhh for being physically and emotionally available to me. And I know that when the time comes, you will be with me physically too.
+And I am sorry for bothering you a lot. Sorry for making you cry a lot. Sorry for leaving you in your bad times. Sorry for bringing tears to your eyes over small things. And sorry for being so self-centered. 
+Love me like this always. Show me the right path. Keep me close to your heart like this. I promise that I will support you in your happiness and sorrow throughout your life. I'll take care of you. I won't let you get even a scratch. 
+I love uhh so much badly januu..
+Tuza boyfriend/nvra
+Tuza lucky
+    </p>
+
+    <p class="signature" id="signatureLine">— From Saahiill</p>
+  </div>
+</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5) Voice note -->
+      <section class="section is-hidden" id="voiceSection">
+        <div class="container">
+          <div class="divider divider--ornament" aria-hidden="true"></div>
+
+          <div class="card card--glass">
+            <h2 class="section-title">Voice Note</h2>
+            <p class="section-hint">Press play — and keep the volume a little high.</p>
+
+            <div class="player" aria-label="Voice note player">
+              <button id="voicePlayBtn" class="player__play" type="button" aria-label="Play voice note">
+                <span class="player__icon" aria-hidden="true"></span>
+              </button>
+
+              <div class="player__meta">
+                <div class="player__row">
+                  <div class="player__name">voice.mp3</div>
+                  <div class="player__time">
+                    <span id="voiceCurrent">0:00</span>
+                    <span class="player__sep">/</span>
+                    <span id="voiceDuration">0:00</span>
+                  </div>
+                </div>
+
+                <input
+                  id="voiceProgress"
+                  class="player__progress"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="0"
+                  step="0.1"
+                  aria-label="Seek"
+                />
+
+                <p id="voiceAutoplayHint" class="player__hint is-hidden">
+                  Tap once to play..
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Timeline -->
+      <section class="section is-hidden" id="timelineSection">
+        <div class="container">
+          <div class="divider divider--ornament" aria-hidden="true"></div>
+
+          <h2 class="section-title">Our story timeline</h2>
+
+          <ol class="timeline" aria-label="Our story timeline">
+            <li class="timeline__item">
+              <div class="timeline__dot" aria-hidden="true"></div>
+              <div class="timeline__card">
+                <div class="timeline__date">25/06/2022</div>
+                <h3 class="timeline__title">Proposal Day</h3>
+                <p class="timeline__text">Jis din se meri jindagi me tum officially enter huye the..</p>
+              </div>
+            </li>
+
+            <li class="timeline__item">
+              <div class="timeline__dot" aria-hidden="true"></div>
+              <div class="timeline__card">
+                <div class="timeline__date">14/04/2025</div>
+                <h3 class="timeline__title">First Touch On My Gurll Waist</h3>
+                <p class="timeline__text">Jis Din Se Main Tumhe Paglo Ki Tarah Touch Krne Ke Bahane Dhundhne Lga..</p>
+              </div>
+            </li>
+
+            <li class="timeline__item">
+              <div class="timeline__dot" aria-hidden="true"></div>
+              <div class="timeline__card">
+                <div class="timeline__date">15/04/2025</div>
+                <h3 class="timeline__title">Our First Kiss (Forehead)</h3>
+                <p class="timeline__text">Jis Din Se Main Tumhare Sath Aur Comfortable Ho Gaya Aur Tumhe Pane Ki Chaht Bdhte Chali Gayi..</p>
+              </div>
+            </li>
+
+            <li class="timeline__item">
+              <div class="timeline__dot" aria-hidden="true"></div>
+              <div class="timeline__card">
+                <div class="timeline__date">24/05/2025</div>
+                <h3 class="timeline__title">First Lip Lock Kiss</h3>
+                <p class="timeline__text">Jis din Se Mujhe Tumhare Sath Physical Hone Ke liye Mare Ja Raha hoon..(physical mtlb bs pyar baby)</p>
+              </div>
+            </li>
+
+            <li class="timeline__item">
+              <div class="timeline__dot" aria-hidden="true"></div>
+              <div class="timeline__card">
+                <div class="timeline__date">30/10/2025</div>
+                <h3 class="timeline__title">First Short Date</h3>
+                <p class="timeline__text">Small Moment, Big Smile..</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Closing -->
+      <section class="section is-hidden" id="closingSection">
+        <div class="container">
+          <div class="divider divider--ornament" aria-hidden="true"></div>
+
+          <div class="card card--glass card--center closing">
+            <p class="closing__line">Always with you.</p>
+            <p class="closing__subline">With you, everything is better.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="container footer__inner">
+          <span class="footer__line">Made for Samiksha • 18 January</span>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Lightbox modal -->
+    <div id="lightbox" class="lightbox is-hidden" role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <div class="lightbox__inner">
+        <button id="lightboxClose" class="lightbox__close" type="button" aria-label="Close photo viewer">
+          Close
+        </button>
+
+        <button id="lightboxPrev" class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous photo">
+          Prev
+        </button>
+
+        <figure class="lightbox__figure">
+          <img id="lightboxImg" class="lightbox__img" alt="Selected photo" />
+          <figcaption id="lightboxCaption" class="lightbox__caption">Caption</figcaption>
+        </figure>
+
+        <button id="lightboxNext" class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next photo">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <!-- Coachmark -->
+    <div id="coachmark" class="coachmark is-hidden" role="status" aria-live="polite">
+      <div class="coachmark__inner">
+        Scroll down ↓ to continue. Tap photos to view them.
+      </div>
+    </div>
+
+<!-- One-time warm flash when Memories section appears -->
+<div id="galleryFlash" class="flash" aria-hidden="true"></div>
+    <!-- Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
